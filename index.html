@@ -1,0 +1,478 @@
+from telethon import TelegramClient, events
+from telethon.tl.types import ChannelParticipantsAdmins
+import asyncio
+from collections import defaultdict
+import time
+
+from time import sleep
+from rich.console import Console
+from rich.progress import Progress, BarColumn, TextColumn
+
+console = Console()
+
+def cool_animation():
+    console.print("[bold cyan]Bot Is Loading.....[/bold cyan]", justify="center<!DOCTYPE html>
+<html>
+<head>
+	<title>Your Name</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			margin: 0;
+			padding: 0;
+		}
+		.container {
+			width: 80%;
+			margin: 40px auto;
+			padding: 20px;
+			background-color: #f9f9f9;
+			border: 1px solid #ddd;
+			box-shadow: 0 0 10px rgba(0,0,0,0.1);
+		}
+		.profile-pic {
+			width: 150px;
+			height: 150px;
+			border-radius: 50%;
+			margin: 20px auto;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<img src="your-profile-pic.jpg" alt="Your Name" class="profile-pic">
+		<h1>Your Name</h1>
+		<p>About me...</p>
+		<p>Skills: HTML, CSS, JavaScript, etc.</p>
+		<p>Contact: <a href="mailto:your-email@example.com">your-email@example.com</a></p>
+		<ul>
+			<li><a href="https:                                                     
+			<li><a href="https://github.com/your-username">GitHub</a></li>
+		</ul>
+	</div>
+</body>
+</html>
+")
+    sleep(1)
+
+    with Progress(
+        TextColumn("[bold magenta]{task.description}[/bold magenta]"),
+        BarColumn(),
+        TextColumn("[bold yellow]{task.percentage:.0f}%[/bold yellow]"),
+        console=console,
+    ) as progress:
+        task = progress.add_task("Loading...", total=100)
+        for i in range(100):
+            sleep(0.05)
+            progress.update(task, advance=1)
+
+    console.print("[bold green]✨ Done! HARRY is now alive..... ✨[/bold green]", justify="center")
+
+cool_animation()
+
+# Apne credentials yahan update kar:
+api_id = '29536868'
+api_hash = '5eb2e9c0ed7575583ef2eec7178eeb1b'
+bot_token = '7888008656:AAGjXT-pexVIz22fICYQkYz0tAYxj31yUMo'
+
+client = TelegramClient('rose_bot', api_id, api_hash).start(bot_token=bot_token)
+
+# Bot Owner ID (Sirf owner gsend command use kar sakta hai)
+BOT_OWNER_ID = 6029220407  # Yahan apna Telegram ID dalna
+
+# ✅✅✅ Group IDs (Jisme /gsend message bhejega) ✅✅✅
+GROUP_IDS = [-- --1002280683230]# Apne groups ke chat ID yahan daalo
+
+# Flood control storage
+flood_control = defaultdict(list)
+antiflood_settings = {}
+
+# Banned words list (Auto-delete system ke liye)
+banned_words = [
+    "madarchod", "bhosdike", "bhenchod", "chutiya", "lund", "gand", "randi", 
+    "mc", "bc", "teri maa", "gandu", "kamina", "kuttiya", "chakka"
+]
+
+from telethon import events
+import requests
+import uuid
+import asyncio
+
+# Function to Generate Line Progress Bar
+def get_loading_bar(progress):
+    total_length = 20  # Bar Size
+    filled_length = int(progress / 5)  # Convert 100% to 20 chars
+    bar = "━" * filled_length + "─" * (total_length - filled_length)  # Filled and Empty parts
+    return f"`[{bar}] {progress}%`"
+
+# Password Reset Function
+def rest(user_id):
+    url = "https://i.instagram.com/api/v1/accounts/send_password_reset/"
+    payload = {
+        'ig_sig_key_version': "4",
+        'user_email': user_id,
+        'device_id': str(uuid.uuid4()),
+    }
+
+    headers = {
+        'User-Agent': "Instagram 113.0.0.39.122 Android",
+        'Connection': "Keep-Alive",
+        'Accept-Encoding': "gzip",
+        'X-IG-Connection-Type': "WIFI",
+    }
+
+    try:
+        res = requests.post(url, data=payload, headers=headers).json()
+        if 'obfuscated_email' in res:
+            return f"✅ **𝐃𝐄𝐊𝐇 𝐁𝐇𝐄𝐉 𝐃𝐈𝐘𝐀 𝐑𝐄𝐒𝐄𝐓 𝐋𝐈𝐍𝐊 ✅**\n📩 **𝐌𝐚𝐢𝐥 𝐆𝐚𝐲𝐚 𝐡𝐚𝐢:** `{res['obfuscated_email']}` Is Gmail Mai..."
+        else:
+            return "⚠️ **𝐔𝐒𝐄𝐑𝐍𝐀𝐌𝐄 𝐍𝐀𝐇𝐈 𝐌𝐈𝐋𝐀 ❌**                                                                     @x_k4i Ko Dm Kar Agar Koi Dikkat Hui..."
+    except:
+        return "❌ **𝐄𝐫𝐫𝐨𝐫 𝐡𝐨 𝐠𝐚𝐲𝐚, 𝐩𝐡𝐢𝐫 𝐬𝐞 𝐭𝐫𝐲 𝐤𝐚𝐫!**"
+
+# Command Handler for /reset <username>
+@client.on(events.NewMessage(pattern=r"^/reset\s+(\S+)", func=lambda e: e.is_private or e.is_group))
+async def insta_reset(event):
+    user_input = event.pattern_match.group(1)
+    if not user_input:
+        return await event.reply("❌ **𝐀𝐫𝐞 𝐛𝐡𝐚𝐢, 𝐄𝐤 𝐈𝐧𝐬𝐭𝐚 𝐔𝐬𝐞𝐫𝐧𝐚𝐦𝐞 𝐭𝐨 𝐝𝐞 𝐏𝐋𝐙!**")
+
+    # Typing Animation
+    async with event.client.action(event.chat_id, "typing"):
+        await asyncio.sleep(0.5)
+        loading_msg = await event.reply("🔄 **𝐑𝐮𝐤𝐡 𝐣𝐚, 𝐏𝐫𝐨𝐜𝐞𝐬𝐬 𝐜𝐡𝐚𝐥 𝐫𝐡𝐚 𝐡𝐚𝐢!**\n\n" + get_loading_bar(0))
+        
+        for i in range(5, 101, 5):  # Fast Animation (5% steps)
+            await loading_msg.edit(f"🔄 **𝐏𝐫𝐨𝐜𝐞𝐬𝐬 𝐂𝐡𝐚𝐥 𝐑𝐡𝐚 𝐡𝐚𝐢!**\n\n{get_loading_bar(i)}")
+            await asyncio.sleep(0.2)  # Faster Speed
+        
+        await asyncio.sleep(0.5)
+        await loading_msg.edit("⏳ **𝐈𝐧𝐬𝐭𝐚𝐠𝐫𝐚𝐦 𝐬𝐞 𝐝𝐚𝐭𝐚 𝐥𝐞 𝐫𝐡𝐚 𝐡𝐮...**")
+        await asyncio.sleep(1)
+
+    response = rest(user_input)
+    
+    async with event.client.action(event.chat_id, "typing"):
+        await asyncio.sleep(0.5)
+        await event.reply(response)
+
+import random
+from telethon import events
+
+# 1000+ random truth questions list
+truth_questions = [
+    "Sabse badi sachai jo tune aaj tak chhupayi hai? 😏",
+    "Kisi par crush aaya hai? Agar haan to kaun? 😉",
+    "Aakhri baar jhooth kab bola tha aur kyu? 🤔",
+    "Teri sabse embarrassing moment kya thi? 😂",
+    "Kya tune kabhi kisi ko cheat kiya hai? 😶",
+    "Tera sabse bada secret kya hai? 🤫",
+    "Sabse weird cheez jo tune kabhi ki hai? 🤯",
+    "Teri life ka sabse bada regret kya hai? 😔",
+    "Tune kabhi kisiko propose kiya hai? Kya jawab mila? 😳",
+    "Kya tu apni ex ko ab bhi yaad karta hai? 💔",
+    "Kabhi koi aisi cheez churai hai jo tujhe nahi karni chahiye thi? 😆",
+    "Tune kabhi kisi se flirt kiya hai bas mazaak me? 😜",
+    "Kya tune kabhi apne friend ke crush ko pasand kiya hai? 🤭",
+    "Tune kabhi kisi ko fake excuse diya hai kisi kaam se bachne ke liye? 🤥",
+    "Kabhi apne maa-baap se koi bada jhooth bola hai? Kya tha? 🙃",
+    "Tere phone me sabse weird photo kaunsi hai? 😝",
+    "Agar tu kisi ek superpower choose kar sakta to kya hota? 🦸",
+    "Tune kabhi kisi se aise secret share kiya jo nahi karna chahiye tha? 😬",
+    "Tere phone ka sabse embarrassing message kaunsa hai? 🤪",
+    "Kabhi kisi famous person se milne ka mauka mila hai? Kaun tha? 🌟",
+    "Agar tujhe ek din ke liye ladka/ladki banne ka mauka mile to kya karega? 😆",
+    "Kabhi kisi ko bina matlab ke ignore kiya hai? Kyu? 🤔",
+    "Kya tu apne best friend se kuch chhupa raha hai? 🤫",
+    "Sabse bada jhooth jo tune apne teacher se bola hai? 🎭",
+    "Kabhi kisi ko secretly follow kiya hai? (IRL ya social media) 👀",
+    "Kabhi apne kisi friend ka secret kisi aur ko bata diya? 😶",
+    "Tune kabhi kisi par spying kiya hai? 😏",
+    "Sabse embarrassing cheez jo tujhe school/college me hui hai? 🎒",
+    "Kis celebrity ko dekh ke tera dil fast dhadakta hai? 💓",
+    "Teri life ka sabse bada turning point kya raha hai? 🔄",
+    "Kabhi kisi se badla liya hai? Kaise? 😈",
+    "Tune kabhi kisi ki chori pakdi hai? Kya kiya tha us time? 😮",
+    "Agar tujhe koi ek cheez change karne mile apni life me to kya karega? 🔄",
+    "Tere doston me kaun sabse zyada toxic hai? 😵‍💫",
+    "Agar tujhe koi ek wish milti jo sach ho jaye, to kya wish karega? 🌠",
+    "Tune kabhi kisi random stranger se flirt kiya hai? 😜",
+    "Apne friend ka sabse bada secret jo tujhe pata hai? 🤫",
+    "Tujhe sabse zyada kiski yaad aati hai raat ko? 🌙",
+    "Tune kabhi kisi ko stalk kiya hai? Kisko aur kyu? 🕵️",
+    "Agar tujhe pata chale ki ek din baad duniya khatam hone wali hai, to kya karega? 🌍💥",
+    "Kabhi kisi ko bina wajah gaali di hai? Kyu? 🤬",
+    "Tune kabhi kisi ki fake tareef ki hai? Kyu? 😆",
+    "Tera sabse bada pachtaava kya hai jo tu badalna chahta hai? 😞",
+    "Kabhi kisi ki photos bina bataye save ki hai? Kiski aur kyu? 📸",
+    "Tujhe sabse zyada kis baat ka dar lagta hai? 😱",
+    "Kabhi kisi ki maa se jhooth bola hai kisi kaam ke liye? 🤭",
+    "Tujhe kabhi kisi par aisa crush aaya jo tujhe nahi aana chahiye tha? 😳",
+    "Kabhi kisi dost ka secret jaan kar kisi aur ko bataya hai? 😶",
+    "Agar tujhe kisi ek dost ko block karna pade, to kaun hoga? 🚫",
+    "Tujhe sabse zyada kiska phone aane ka wait rehta hai? 📲",
+    "Kabhi kisi ko bina matlab ke online ignore kiya hai? 🧐",
+    "Tune kabhi kisi ka breakup ka reason suna hai? Kya reason tha? 💔",
+    "Kabhi kisi se fake dosti ki hai bas kaam nikalne ke liye? 😏",
+    "Agar tujhe ek din ke liye PM banne ka moka mile to kya karega? 🏛️",
+    "Tune kabhi kisi ko impress karne ke liye jhooth bola hai? 🤭",
+    "Tujhe kis cheez me sabse zyada jealousy hoti hai? 😤",
+    "Agar tu kisi bhi ek jagah time travel kar sakta to kaha jaayega? ⏳",
+    "Tune kabhi kisi ka WhatsApp chat bina uske bataye dekha hai? 📲",
+    "Kabhi kisi se bina matlab jhagad gaya hai? Kyu? 🤨","Tune kabhi sir jhuka ke khud ka muh mai lene ka try kiya hai ?🤣","Tuje kabhi chut ke darshan hue hai ? 🤣","sach batana tune kabhi bachpan mai mammi papa ko sex karte hue dekha hai ?🤡","Tuje kabhi mammi papa ke bedroom mai pillow ke niche condom mila hai 🤡💔"
+] * 20  # 1000+ truths by repeating list
+
+@client.on(events.NewMessage(pattern=r"^/truth(?:\s+@?\w+)?$"))
+async def truth_command(event):
+    sender = await event.get_sender()
+    user_name = f"@{sender.username}" if sender.username else sender.first_name
+
+    # Extract mentioned user if available
+    reply_to = event.message.message.split(" ", 1)
+    if len(reply_to) > 1:
+        user_name = reply_to[1]  # Mentioned user
+
+    truth_question = random.choice(truth_questions)
+    await event.reply(f"🔥 {user_name} {truth_question}")
+
+import random
+from telethon import events
+
+# 1000+ random dare challenges list
+dare_challenges = [
+    "Abhi apne DP par ek embarrassing photo laga do aur 1 ghante tak mat hatao! 🤭",
+    "Group ke kisi ek bande ko bina wajah 'I Love You' message bhejo! 😜",
+    "Apni sabse sharamnaak selfie group me bhejo! 🤳😆",
+    "Bina soche apna last WhatsApp message copy paste karo! 📩😂",
+    "Kisi stranger se 'Kya aap mujhe jaante hain?' puchho! 😅",
+    "Group me bina context ke 'Mujhe pyaar ho gaya hai' likho! ❤️😂",
+    "Kisi ek member ko bina wajah 3 baar call karo! 📲🤣",
+    "Apni search history ka last 3 words likho! 🔍😂",
+    "Group ke kisi ek bande ko ek cheesy pickup line bhejo! 😍",
+    "Aankh band karke ek random emoji bhejo jo bhi aaye wo tera mood batayega! 😆",
+    "Ek funny joke likho jo sabko hasaye! 🤣",
+    "Apne ex ko 'Mujhe tumhari yaad aati hai' likh ke bhejo! 💔😝",
+    "5 minutes tak apni aankhein bandh rakh ke baitho! 😵",
+    "Apne phone ka sabse embarrassing photo share karo! 📷😆",
+    "Koi ek movie ka naam likho jisme tum hona chahte ho! 🎬😏",
+    "Apna pichla chat screenshot bhejo (jisme mazedaar baat ho)! 📱🤣",
+    "Ek random funny video record karo aur group me bhejo! 📹😂",
+    "5 baar zor zor se apna naam bolo aur record karke bhejo! 🎙️😆",
+    "Ek random funny dance ka video bana ke bhejo! 💃🤣",
+    "Apni sabse pehli DP dikhao jo kabhi lagi thi! 🖼️😂",
+    "Ek random kahani likho jo bina sense wali ho! 📖😜",
+    "Apna current wallpaper bhejo! 📲😏",
+    "Ek weird cheez batao jo sirf tujhe hi pasand hai! 😜",
+    "Ek aise bande ko message bhejo jisse tune 1 saal se baat nahi ki! 🕰️😂",
+    "Koi bhi ek gaana 10 second tak loudly gao aur bhejo! 🎵😂",
+    "Kisi ek member ko bina wajah 10 baar tag karo! 😆",
+    "Group ke kisi ek bande se ek cheesy romantic dialogue likho! 😍",
+    "Apna favorite gaana loudly chalao aur uspar dance karo! 💃🎶",
+    "Abhi kisi random bande ko Instagram pe follow karo! 📱😜",
+    "Apna sabse embarrassing nickname batao! 😝",
+    "Bina context ke kisi random bande ko 'Kya haal hai jaanu?' likho! 😏",
+    "Kisi random store pe jao aur bina wajah kuch puchh ke wapas aa jao! 😆",
+    "Group ke kisi ek bande ko bina wajah 'Pagal hai tu' bolo! 😆",
+    "Ek random movie ka naam likho aur uspar ek fake review do! 🎬😜",
+    "Sabse ajeeb pose me selfie lo aur bhejo! 🤪📸",
+    "Abhi apni profile bio me 'Main ek pagal hu!' likho aur 1 din tak mat hatao! 🤪",
+    "Kisi ek member ko bina wajah 'Kyu be' bolke mention karo! 😜",
+    "Ek joke likho jo sirf group ke log hi samajh sake! 😆",
+    "Abhi kisi random bande ko video call karo aur bina kuch bole dekhte raho! 📹😂",
+    "Ek random fake breaking news likho aur group me bhejo! 📰😆",
+    "Apne dost ka ek embarrassing nickname batao! 😂",
+    "Koi bhi ek funny shayari likho jo sabko hasaye! 🎭😆",
+    "Kisi stranger ko Instagram pe jaake 'Hi Baby' likho! 😏😂",
+    "Kisi bhi ek member ko mimic karke dikhao (text me)! 😜",
+    "Apna sabse bada secret batao jo kisi ko nahi pata! 🤫",
+    "Kisi ek member se ek embarrassing question pucho! 😜",
+    "Ek fake love letter likho aur kisi ek member ko send karo! 💌😂",
+    "Ek weird superpower socho jo tumhare paas ho aur batao! 🦸😆",
+    "Group me bina context ke 'Mujhe chappal se maaro' likho! 😂",
+    "Apna last YouTube search batao! 📺😂",
+    "Apni last online shopping ka screenshot bhejo! 🛍️😂",
+    "Koi ek random kaam karo jo tumhe abhi tak kabhi nahi kiya! 🤯",
+    "Abhi apne phone ka battery percentage batao! 🔋😆",
+    "Ek celebrity ka naam likho jiske saath date pe jaana chahoge! ❤️",
+    "Ek fake rishta fix karne wala message likho aur kisi ko send karo! 😆",
+    "Koi bhi ek horror kahani likho jo sabko dara de! 👻😨",
+    "Abhi kisi stranger se 'Mujhe tumse milna hai' bolo! 📞😏",
+    "Apna sabse embarrassing school moment share karo! 🎒😂",
+    "Koi bhi ek random online test do aur uska result share karo! 📝😆",
+    "Ek food combination batao jo sirf tumhe pasand ho! 🍕🍫😂",
+    "Abhi apni screen brightness 100% karo aur ek selfie bhejo! 📱😆",
+    "Ek funny prank ka idea batao jo tum kisi pe kar chuke ho! 😜",
+    "Abhi ek friend ko bina wajah 10 baar call karo aur dekho kya hota hai! 📞🤣","Apni Ex ke nudes bhej de ya to group mai ya owner ke dm mai","@x_k4i Ko papa bol mention kar ke nahi to th chakka","Kabhi mutthi maar ke apna sperm muh mai lene ka try kiya hai?"
+] * 20  # 1000+ dares by repeating list
+
+@client.on(events.NewMessage(pattern=r"^/dare(?:\s+@?\w+)?$"))
+async def dare_command(event):
+    sender = await event.get_sender()
+    user_name = f"@{sender.username}" if sender.username else sender.first_name
+
+    # Extract mentioned user if available
+    reply_to = event.message.message.split(" ", 1)
+    if len(reply_to) > 1:
+        user_name = reply_to[1]  # Mentioned user
+
+    dare_task = random.choice(dare_challenges)
+    await event.reply(f"🔥 {user_name}{dare_task}")
+
+import logging
+from telethon import events, Button
+
+# Logging setup
+logging.basicConfig(format="%(asctime)s - %(levelname)s - %(message)s", level=logging.INFO)
+
+# Game state
+games = {}
+
+async def start_xo(event):
+    """Start a new Tic-Tac-Toe game. 🎮"""
+    chat_id = event.chat_id
+    user = event.sender_id
+
+    if chat_id in games:
+        await event.respond("❌ **Ek game already chal raha hai!** Pehle use finish karo. 😅")
+        return
+
+    # Initialize board
+    board = [[" " for _ in range(3)] for _ in range(3)]
+    games[chat_id] = {"board": board, "turn": "X", "players": [user, None], "message_id": None}
+
+    sent_message = await event.respond("🎮 **Tic-Tac-Toe Game Start!**\n"
+                                       "👉 Pehle player ne '<code>❌</code>' choose kiya hai.\n"
+                                       "👉 Dusra player reply kare `/join` likh ke! 🚀", parse_mode="html")
+    games[chat_id]["message_id"] = sent_message.id
+
+async def join_xo(event):
+    """Allow second player to join the game. 👥"""
+    chat_id = event.chat_id
+    user = event.sender_id
+
+    if chat_id not in games:
+        await event.respond("⚠️ **Koi active game nahi hai.** Start karne ke liye `/xo` likho! 🎮")
+        return
+
+    if games[chat_id]["players"][1] is not None:
+        await event.respond("🙅 **Already do players hai!** Game start ho chuka hai. 🚀")
+        return
+
+    games[chat_id]["players"][1] = user
+    await send_board(chat_id)
+
+async def send_board(chat_id):
+    """Send the current board state with inline buttons. 📜"""
+    game = games.get(chat_id)
+    if not game:
+        return
+
+    board = game["board"]
+    turn = game["turn"]
+    player1 = await client.get_entity(game["players"][0])
+    player2 = await client.get_entity(game["players"][1])
+
+    # Generate inline keyboard
+    keyboard = []
+    for i in range(3):
+        row = []
+        for j in range(3):
+            text = board[i][j] if board[i][j] != " " else "⬜"
+            row.append(Button.inline(text, data=f"{i},{j}"))
+        keyboard.append(row)
+
+    msg = (f"🎲 **Tic-Tac-Toe Game!**\n"
+           f"👤 {player1.first_name} = <code>❌</code>\n"
+           f"👤 {player2.first_name} = <code>⭕</code>\n"
+           f"🔄 <b>{turn}</b> ki baari hai! 🚀")
+
+    try:
+        await client.edit_message(chat_id, game["message_id"], msg, buttons=keyboard, parse_mode="html")
+    except:
+        pass  # Agar message edit nahi hota, ignore kar do
+
+@client.on(events.CallbackQuery)
+async def button_click(event):
+    """Handle button clicks for the game. 🖱️"""
+    chat_id = event.chat_id
+    user_id = event.sender_id
+
+    if chat_id not in games:
+        await event.answer("⚠️ **Koi active game nahi hai.**")
+        return
+
+    game = games[chat_id]
+
+    if user_id not in game["players"]:
+        await event.answer("🙅 **Aap iss game ke player nahi ho!**")
+        return
+
+    if user_id != game["players"][0] and game["turn"] == "X":
+        await event.answer("❌ **X ki baari hai!**")
+        return
+    elif user_id != game["players"][1] and game["turn"] == "O":
+        await event.answer("⭕ **O ki baari hai!**")
+        return
+
+    i, j = map(int, event.data.decode().split(","))
+    if game["board"][i][j] != " ":
+        await event.answer("🚫 **Yeh jagah already occupied hai!**")
+        return
+
+    game["board"][i][j] = game["turn"]
+    game["turn"] = "O" if game["turn"] == "X" else "X"
+
+    await check_winner(chat_id)
+
+async def check_winner(chat_id):
+    """Winner check karega. 🏅"""
+    game = games.get(chat_id)
+    if not game:
+        return
+
+    board = game["board"]
+    players = game["players"]
+
+    for i in range(3):
+        if board[i][0] == board[i][1] == board[i][2] != " ":
+            await announce_winner(chat_id, board[i][0], players)
+            return
+        if board[0][i] == board[1][i] == board[2][i] != " ":
+            await announce_winner(chat_id, board[0][i], players)
+            return
+
+    if board[0][0] == board[1][1] == board[2][2] != " ":
+        await announce_winner(chat_id, board[0][0], players)
+        return
+    if board[0][2] == board[1][1] == board[2][0] != " ":
+        await announce_winner(chat_id, board[0][2], players)
+        return
+
+    if all(board[i][j] != " " for i in range(3) for j in range(3)):
+        await client.edit_message(chat_id, game["message_id"], "😅 Game Draw Ho Gaya! 🤝")
+        del games[chat_id]
+        return
+
+    await send_board(chat_id)
+
+async def announce_winner(chat_id, winner, players):
+    """Winner announce karega. 🎉"""
+    winner_id = players[0] if winner == "X" else players[1]
+    winner_entity = await client.get_entity(winner_id)
+    
+    await client.edit_message(chat_id, games[chat_id]["message_id"], f"🎊 **[{winner_entity.first_name}](tg://user?id={winner_id}) ne game Jeet liya!** 🏆🔥", parse_mode="md")
+    del games[chat_id]
+
+@client.on(events.NewMessage(pattern="/xo"))
+async def xo_command(event):
+    """Start Tic-Tac-Toe game ya user ko challenge kare. 🎮"""
+    args = event.raw_text.split()
+    
+    if len(args) == 1:
+        await start_xo(event)
+    elif len(args) == 2:
+        user_mention = args[1]
+        opponent = await client.get_entity(user_mention)
+        chat_id = event.chat_id
+
+        if chat_id in games:
+            await event.r
